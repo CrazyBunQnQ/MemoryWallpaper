@@ -14,8 +14,6 @@ import java.awt.geom.Rectangle2D;
  * @auther CrazyBunQnQ
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class StringUtil {
     /**
      * 根据指定宽度将字符串分割为两部分，用来设置自动换行
