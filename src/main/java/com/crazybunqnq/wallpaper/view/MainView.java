@@ -1,8 +1,10 @@
 package com.crazybunqnq.wallpaper.view;
 
 import com.crazybunqnq.wallpaper.Constant;
+import com.crazybunqnq.wallpaper.widget.PathSelect;
+import com.crazybunqnq.wallpaper.widget.RealTimeImage;
 import com.crazybunqnq.wallpaper.widget.SizeSlider;
-import lombok.Data;
+import com.crazybunqnq.wallpaper.widget.TextFiled;
 import lombok.extern.log4j.Log4j;
 
 import javax.swing.*;
@@ -12,10 +14,10 @@ import java.awt.*;
  * @version 2017/9/16.
  * @auther CrazyBunQnQ
  */
-@Data
 @Log4j
 public class MainView {
     private static String imgPath = "";
+    private static RealTimeImage realTimePreview = new RealTimeImage();
 
     private MainView() {
 
@@ -55,63 +57,59 @@ public class MainView {
         setting.setPreferredSize(Constant.SETTING_DIMENSION);
 
         //原图路径
-        JPanel imgPanel = new JPanel();
-        imgPanel.setLayout(new FlowLayout());
-        JLabel textLable1 = new JLabel("原图路径:");
-        textLable1.setPreferredSize(Constant.LABLE_DIMENSION_4);
-        imgPanel.add(textLable1);
-        JTextField imgPathText = new JTextField();
-        imgPathText.setPreferredSize(Constant.LABLE_DIMENSION_10);
-        imgPanel.add(imgPathText);
-        JButton imgButton = new JButton("浏览");
-        imgButton.setPreferredSize(Constant.LABLE_DIMENSION_2);
-        imgPanel.add(imgButton);
+        PathSelect imgSelect = new PathSelect("原图路径", Constant.DEFAULT_PATH, true);
+        JPanel imgPanel = imgSelect.getPanel();
 
         //文档路径
-        JPanel docPanel = new JPanel();
-        docPanel.setLayout(new FlowLayout());
-        JLabel textLable2 = new JLabel("文本路径:");
-        textLable2.setPreferredSize(Constant.LABLE_DIMENSION_4);
-        docPanel.add(textLable2);
-        JTextField docPathText = new JTextField();
-        docPathText.setPreferredSize(Constant.LABLE_DIMENSION_10);
-        docPanel.add(docPathText);
-        JButton docButton = new JButton("浏览");
-        docButton.setPreferredSize(Constant.LABLE_DIMENSION_2);
-        docPanel.add(docButton);
+        PathSelect docSelect = new PathSelect("文档路径", Constant.DEFAULT_PATH, true);
+        JPanel docPanel = docSelect.getPanel();
 
         //输出设置
-        JPanel outputPanel = new JPanel();
-        outputPanel.setLayout(new FlowLayout());
-        JLabel textLable3 = new JLabel("输出目录:");
-        textLable3.setPreferredSize(Constant.LABLE_DIMENSION_4);
-        outputPanel.add(textLable3);
-        JTextField outputPathText = new JTextField();
-        outputPathText.setPreferredSize(Constant.LABLE_DIMENSION_10);
-        outputPanel.add(outputPathText);
-        JButton outButton = new JButton("浏览");
-        outButton.setPreferredSize(Constant.LABLE_DIMENSION_2);
-        outputPanel.add(outButton);
-        JPanel fileNamePanel = new JPanel();
-        fileNamePanel.setLayout(new FlowLayout());
-        JLabel textLable4 = new JLabel("文件名:");
-        textLable4.setPreferredSize(Constant.LABLE_DIMENSION_4);
-        fileNamePanel.add(textLable4);
-        JTextField outputNameText = new JTextField();
-        outputNameText.setPreferredSize(Constant.LABLE_DIMENSION_12);
-        outputNameText.setText("output.jpg");
-        fileNamePanel.add(outputNameText);
+        PathSelect outputSelect = new PathSelect("输出目录", Constant.DEFAULT_PATH, false);
+        JPanel outputPanel = outputSelect.getPanel();
 
-        SizeSlider titleSlider = new SizeSlider("标题大小");
-        JPanel titlePanel = titleSlider.getMainWin();
+        //输出设置
+        PathSelect outputSelect2 = new PathSelect("输出目录", Constant.DEFAULT_PATH, false);
+        JPanel outputPanel2 = outputSelect2.getPanel();
 
+        TextFiled nameTF = new TextFiled("文件名称", "output.jpg");
+        JPanel fileNamePanel = nameTF.getPanel();
+
+        SizeSlider titleSlider = new SizeSlider("标题大小", 10, 100, 20, true);
+        JPanel titlePanel = titleSlider.getPanel();
+
+        SizeSlider codeSlider = new SizeSlider("内容大小", 5, 50, 10, true);
+        JPanel codePanel = codeSlider.getPanel();
+
+        SizeSlider colWidthSlider = new SizeSlider("列宽", 100, 1920, 600, true);
+        JPanel colWidthPanel = colWidthSlider.getPanel();
+
+        SizeSlider heightSlider = new SizeSlider("高度", 100, 1280, 700, true);
+        JPanel heightPanel = heightSlider.getPanel();
+
+        SizeSlider xSlider = new SizeSlider("水平位置", 0, Constant.SCREEN_WIDTH - 100, 50, false);
+        JPanel xPanel = xSlider.getPanel();
+
+        SizeSlider ySlider = new SizeSlider("竖直位置", 0, Constant.SCREEN_HEIGHT - 100, 50, false);
+        JPanel yPanel = ySlider.getPanel();
+
+
+        JButton justDoIt = new JButton("立即制作！");
 
         setting.setLayout(new BoxLayout(setting, BoxLayout.Y_AXIS));
+
         setting.add(imgPanel);
         setting.add(docPanel);
         setting.add(outputPanel);
         setting.add(fileNamePanel);
         setting.add(titlePanel);
+        setting.add(codePanel);
+        setting.add(colWidthPanel);
+        setting.add(heightPanel);
+        setting.add(xPanel);
+        setting.add(yPanel);
+
+        setting.add(justDoIt);
 
 //        setting.add()
         return setting;
@@ -139,7 +137,7 @@ public class MainView {
         ImageIcon imageIcon = new ImageIcon("".equals(imgPath) ? Constant.DEFAULT_PATH : imgPath);
         int imgWidth = imageIcon.getIconWidth();
         int imgHeight = imageIcon.getIconHeight();
-        System.out.println(imgWidth + "*" + imgHeight);
+        System.out.println("图片分辨率为 " + imgWidth + " x " + imgHeight);
         float aspectRatio = (float) imgWidth / (float) imgHeight;
         int previewHeight = (int) (Constant.PREVIEW_WIDTH / aspectRatio);
         imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(Constant.PREVIEW_WIDTH, previewHeight, Image.SCALE_DEFAULT));

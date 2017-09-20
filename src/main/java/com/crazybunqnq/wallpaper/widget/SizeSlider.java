@@ -1,11 +1,11 @@
 package com.crazybunqnq.wallpaper.widget;
 
+import com.crazybunqnq.wallpaper.Constant;
 import lombok.extern.log4j.Log4j;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
@@ -13,51 +13,64 @@ import java.beans.PropertyChangeListener;
  * @auther CrazyBunQnQ
  */
 @Log4j
-public class SizeSlider {
-    private int value;
-    private JPanel mainWin = new JPanel();
+public class SizeSlider extends BaseWidget {
+    private JLabel showVal;
 
-    public SizeSlider(String title) {
+    /**
+     * 滑动条
+     *
+     * @param title     标题
+     * @param min       最小时
+     * @param max       最大值
+     * @param value     初始值
+     * @param showValue 是否显示值
+     */
+    public SizeSlider(String title, int min, int max, Integer value, boolean showValue) {
         ChangeListener sliderListener;
         PropertyChangeListener textListener;
-        mainWin.setLayout(new BoxLayout(mainWin, BoxLayout.X_AXIS));
+        panel.setMaximumSize(Constant.LABLE_DIMENSION_14);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JSlider jSlider = new JSlider();
-//        jSlider.setExtent(10);
-        JTextField showVal = new JTextField();
+        jSlider.setMinimum(min);
+        jSlider.setMaximum(max);
+        if (value != null) {
+            if (value > max) {
+                value = max;
+            }
+            if (value < min) {
+                value = min;
+            }
+            jSlider.setValue(value);
+            this.value = value + "";
+        } else {
+            this.value = min + "";
+        }
+        showVal = new JLabel(jSlider.getValue() + "");
+        showVal.setPreferredSize(Constant.LABLE_DIMENSION_1);
 
-        sliderListener = new ChangeListener() {
+        initListener();
+
+        jSlider.addChangeListener((ChangeListener) listener);
+
+        panel.add(new JLabel(title + "："));
+        panel.add(jSlider);
+        if (showValue) {
+            panel.add(showVal);
+        }
+        panel.setVisible(true);
+    }
+
+
+    @Override
+    protected void initListener() {
+        listener = new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent event) {
+            public void stateChanged(ChangeEvent e) {
                 //取出滑动条的值，并在文本中显示出来
-                JSlider source = (JSlider) event.getSource();
-                value = source.getValue();
+                JSlider source = (JSlider) e.getSource();
+                value = source.getValue() + "";
                 showVal.setText("" + value);
             }
         };
-
-        textListener = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                JTextField source = (JTextField) evt.getSource();
-                String text = source.getText();
-                jSlider.setValue("".equals(text) ? 10 : Integer.parseInt(source.getText()));
-                value = jSlider.getValue();
-            }
-        };
-        jSlider.addChangeListener(sliderListener);
-        showVal.addPropertyChangeListener(textListener);
-
-        mainWin.add(new JLabel(title + "："));
-        mainWin.add(jSlider);
-        mainWin.add(showVal);
-        mainWin.setVisible(true);
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public JPanel getMainWin() {
-        return mainWin;
     }
 }

@@ -21,10 +21,12 @@ public class Constant {
 
     public final static Dimension SETTING_DIMENSION = new Dimension(350, 400);
     public final static Dimension RIGHT_DIMENSION = new Dimension(600, 460);
+    public final static Dimension LABLE_DIMENSION_1 = new Dimension(25, 24);
     public final static Dimension LABLE_DIMENSION_2 = new Dimension(50, 24);
     public final static Dimension LABLE_DIMENSION_4 = new Dimension(60, 24);
     public final static Dimension LABLE_DIMENSION_10 = new Dimension(200, 24);
     public final static Dimension LABLE_DIMENSION_12 = new Dimension(250, 24);
+    public final static Dimension LABLE_DIMENSION_14 = new Dimension(300, 24);
 
     static {
         System.out.println("设备分辨率为 " + SCREEN_WIDTH + " x " + SCREEN_HEIGHT);
