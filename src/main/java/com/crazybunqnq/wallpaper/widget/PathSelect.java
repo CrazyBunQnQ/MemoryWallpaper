@@ -1,6 +1,7 @@
 package com.crazybunqnq.wallpaper.widget;
 
 import com.crazybunqnq.wallpaper.Constant;
+import com.crazybunqnq.wallpaper.exception.FilePathException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -30,7 +31,11 @@ public class PathSelect extends BaseWidget {
      * @param title 标题
      * @param value 初始值
      */
-    public PathSelect(String title, String value) {
+    public PathSelect(String title, String value) throws FilePathException {
+        File file = new File(value);
+        if (file == null || !file.isFile()) {
+            throw new FilePathException("文件路径错误");
+        }
         init(title, value);
         initListener();
         button.addActionListener(actionListener);
@@ -44,7 +49,11 @@ public class PathSelect extends BaseWidget {
      * @param value  初始值
      * @param filter 文件过滤器，限制文件类型
      */
-    public PathSelect(String title, String value, FileFilter filter) {
+    public PathSelect(String title, String value, FileFilter filter) throws FilePathException {
+        File file = new File(value);
+        if (file == null || !file.isFile()) {
+            throw new FilePathException("文件路径错误");
+        }
         init(title, value);
         this.isFile = true;
         this.filter = filter;
@@ -66,6 +75,7 @@ public class PathSelect extends BaseWidget {
                 } else {
                     fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 }
+                fc.setMultiSelectionEnabled(false);//只能选择一个
                 fc.showOpenDialog(null);
                 File file = fc.getSelectedFile();
                 if (file != null) {

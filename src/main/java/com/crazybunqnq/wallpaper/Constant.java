@@ -2,6 +2,8 @@ package com.crazybunqnq.wallpaper;
 
 import com.crazybunqnq.wallpaper.util.ScreenUtil;
 
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 
@@ -27,6 +29,12 @@ public class Constant {
     public final static Dimension LABLE_DIMENSION_10 = new Dimension(200, 24);
     public final static Dimension LABLE_DIMENSION_12 = new Dimension(250, 24);
     public final static Dimension LABLE_DIMENSION_14 = new Dimension(300, 24);
+
+    //TODO
+    public final static FileFilter imgFilter = new FileNameExtensionFilter("图片文件", "jpg", "jpeg", "png", "bmp");
+
+    //TODO
+    public final static FileFilter textFilter = new FileNameExtensionFilter("文本文件", "txt", "md");
 
     static {
         System.out.println("设备分辨率为 " + SCREEN_WIDTH + " x " + SCREEN_HEIGHT);

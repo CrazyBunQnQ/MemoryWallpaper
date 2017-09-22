@@ -23,10 +23,6 @@ public abstract class BaseWidget {
      * 控件的值
      */
     protected String value;
-    /**
-     * 监听 value 值变化的监听器
-     */
-    protected ValueChangeListener listener;
 
     /**
      * 初始化自身独有的监听器(不是 ValueChangeListener)
