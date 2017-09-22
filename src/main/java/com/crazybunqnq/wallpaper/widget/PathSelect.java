@@ -3,6 +3,7 @@ package com.crazybunqnq.wallpaper.widget;
 import com.crazybunqnq.wallpaper.Constant;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,35 +19,37 @@ public class PathSelect extends BaseWidget {
     private ActionListener actionListener;
     private JTextField textField;
     private boolean isFile;
+    private FileFilter filter;
+
+    private JLabel label;
+    private JButton button;
 
     /**
-     * 创建一个路径选择类
+     * 创建一个文件夹选择器
      *
-     * @param title  标题
-     * @param value  值
-     * @param isFile true: 选择文件；false 选择文件夹
+     * @param title 标题
+     * @param value 初始值
      */
-    public PathSelect(String title, String value, boolean isFile) {
-        panel.setMaximumSize(Constant.LABLE_DIMENSION_14);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-
-        JLabel label = new JLabel(title + ": ");
-
-        textField = new JTextField(value);
-        this.value = value;
-        this.isFile = isFile;
-
-        JButton button = new JButton("浏览");
-        button.setMaximumSize(Constant.LABLE_DIMENSION_2);
-        textField.setMaximumSize(new Dimension(panel.getSize().width - label.getSize().width, 24));
-
+    public PathSelect(String title, String value) {
+        init(title, value);
         initListener();
         button.addActionListener(actionListener);
+    }
 
-        panel.add(label);
-        panel.add(textField);
-        panel.add(button);
-        panel.setVisible(true);
+
+    /**
+     * 创建一个文件选择类
+     *
+     * @param title  标题
+     * @param value  初始值
+     * @param filter 文件过滤器，限制文件类型
+     */
+    public PathSelect(String title, String value, FileFilter filter) {
+        init(title, value);
+        this.isFile = true;
+        this.filter = filter;
+        initListener();
+        button.addActionListener(actionListener);
     }
 
     @Override
@@ -57,6 +60,9 @@ public class PathSelect extends BaseWidget {
                 JFileChooser fc = new JFileChooser();
                 if (isFile) {
                     fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                    if (filter != null) {
+                        fc.setFileFilter(filter);
+                    }
                 } else {
                     fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 }
@@ -69,5 +75,24 @@ public class PathSelect extends BaseWidget {
                 }
             }
         };
+    }
+
+    protected void init(String title, String value) {
+        panel.setMaximumSize(Constant.LABLE_DIMENSION_14);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        label = new JLabel(title + ": ");
+
+        textField = new JTextField(value);
+        this.value = value;
+
+        button = new JButton("浏览");
+        button.setMaximumSize(Constant.LABLE_DIMENSION_2);
+        textField.setMaximumSize(new Dimension(panel.getSize().width - label.getSize().width, 24));
+
+        panel.add(label);
+        panel.add(textField);
+        panel.add(button);
+        panel.setVisible(true);
     }
 }
