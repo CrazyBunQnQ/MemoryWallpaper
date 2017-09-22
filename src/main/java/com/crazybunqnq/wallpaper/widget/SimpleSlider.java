@@ -1,21 +1,21 @@
 package com.crazybunqnq.wallpaper.widget;
 
 import com.crazybunqnq.wallpaper.Constant;
-import com.crazybunqnq.wallpaper.event.ValueChangeEvent;
-import com.crazybunqnq.wallpaper.listenter.ValueChangeListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
 import java.beans.PropertyChangeListener;
 
 /**
+ * 含有标题的滑动条
+ * <br/>
+ * 可通过 getPanel() 获取 Panel
+ *
  * @version 2017/9/19.
  * @auther CrazyBunQnQ
  */
-public class SizeSlider extends BaseWidget {
-    protected EventListenerList listenerList = new EventListenerList();
+public class SimpleSlider extends BaseWidget {
     private JLabel showVal;
     private ChangeListener sliderListener;
 
@@ -28,7 +28,7 @@ public class SizeSlider extends BaseWidget {
      * @param value     初始值
      * @param showValue 是否显示值
      */
-    public SizeSlider(String title, int min, int max, Integer value, boolean showValue) {
+    public SimpleSlider(String title, int min, int max, Integer value, boolean showValue) {
         PropertyChangeListener textListener;
         panel.setMaximumSize(Constant.LABLE_DIMENSION_14);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -63,43 +63,7 @@ public class SizeSlider extends BaseWidget {
     }
 
     @Override
-    public void addValueChangeListener(ValueChangeListener vcListener) {
-        listenerList.add(ValueChangeListener.class, vcListener);
-    }
-
-    public void removeValueChangeListener(ValueChangeListener vcListener) {
-        listenerList.remove(ValueChangeListener.class, vcListener);
-    }
-
-    private void notifyValueChangeListener(ValueChangeEvent vcEvent) {
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ValueChangeListener.class) {
-                if (vcEvent == null) {
-                    vcEvent = new ValueChangeEvent(this,value);
-                }
-                ((ValueChangeListener) listeners[i + 1]).valueChangeEvent(vcEvent);
-            }
-        }
-    }
-
-    public void setValue(String value) {
-        boolean bool = false;
-        if (value == null && this.value != null) bool = true;
-        else if (value != null && this.value == null) bool = true;
-        else if (!this.value.equals(value)) bool = true;
-        this.value = value;
-        //如果改变则执行事件
-        if (bool) notifyValueChangeListener(new ValueChangeEvent(this, this.value));
-    }
-
-    /*@Override
-    public String getValue() {
-        this.value = showVal.getText();
-        return value;
-    }*/
-
-    private void initListener() {
+    protected void initListener() {
         sliderListener = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
