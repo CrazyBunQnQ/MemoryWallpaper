@@ -1,7 +1,8 @@
 package com.crazybunqnq.wallpaper.widget;
 
+import com.crazybunqnq.wallpaper.listenter.ValueChangeListener;
+
 import javax.swing.*;
-import java.util.EventListener;
 
 /**
  * @version 2017/9/20.
@@ -10,9 +11,11 @@ import java.util.EventListener;
 public abstract class BaseWidget {
     protected JPanel panel = new JPanel();
     protected String value;
-    protected EventListener listener;
+    protected ValueChangeListener listener;
 
-    protected abstract void initListener();
+//    protected abstract void initListener();
+
+    public abstract void addValueChangeListener(ValueChangeListener vcListener);
 
     public String getValue() {
         return value;

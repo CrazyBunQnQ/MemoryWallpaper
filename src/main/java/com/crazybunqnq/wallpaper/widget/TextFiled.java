@@ -1,10 +1,10 @@
 package com.crazybunqnq.wallpaper.widget;
 
 import com.crazybunqnq.wallpaper.Constant;
+import com.crazybunqnq.wallpaper.listenter.ValueChangeListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
@@ -32,14 +32,11 @@ public class TextFiled extends BaseWidget {
         panel.setVisible(true);
     }
 
-    @Override
     protected void initListener() {
-        listener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JTextField textField = (JTextField) e.getSource();
-                value = textField.getText();
-            }
-        };
+    }
+
+    @Override
+    public void addValueChangeListener(ValueChangeListener vcListener) {
+
     }
 }

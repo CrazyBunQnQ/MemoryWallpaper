@@ -1,20 +1,23 @@
 package com.crazybunqnq.wallpaper.widget;
 
 import com.crazybunqnq.wallpaper.Constant;
-import lombok.extern.log4j.Log4j;
+import com.crazybunqnq.wallpaper.event.ValueChangeEvent;
+import com.crazybunqnq.wallpaper.listenter.ValueChangeListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 import java.beans.PropertyChangeListener;
 
 /**
  * @version 2017/9/19.
  * @auther CrazyBunQnQ
  */
-@Log4j
 public class SizeSlider extends BaseWidget {
+    protected EventListenerList listenerList = new EventListenerList();
     private JLabel showVal;
+    private ChangeListener sliderListener;
 
     /**
      * 滑动条
@@ -26,7 +29,6 @@ public class SizeSlider extends BaseWidget {
      * @param showValue 是否显示值
      */
     public SizeSlider(String title, int min, int max, Integer value, boolean showValue) {
-        ChangeListener sliderListener;
         PropertyChangeListener textListener;
         panel.setMaximumSize(Constant.LABLE_DIMENSION_14);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -50,7 +52,7 @@ public class SizeSlider extends BaseWidget {
 
         initListener();
 
-        jSlider.addChangeListener((ChangeListener) listener);
+        jSlider.addChangeListener(sliderListener);
 
         panel.add(new JLabel(title + "："));
         panel.add(jSlider);
@@ -60,16 +62,50 @@ public class SizeSlider extends BaseWidget {
         panel.setVisible(true);
     }
 
-
     @Override
-    protected void initListener() {
-        listener = new ChangeListener() {
+    public void addValueChangeListener(ValueChangeListener vcListener) {
+        listenerList.add(ValueChangeListener.class, vcListener);
+    }
+
+    public void removeValueChangeListener(ValueChangeListener vcListener) {
+        listenerList.remove(ValueChangeListener.class, vcListener);
+    }
+
+    private void notifyValueChangeListener(ValueChangeEvent vcEvent) {
+        Object[] listeners = listenerList.getListenerList();
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ValueChangeListener.class) {
+                if (vcEvent == null) {
+                    vcEvent = new ValueChangeEvent(this,value);
+                }
+                ((ValueChangeListener) listeners[i + 1]).valueChangeEvent(vcEvent);
+            }
+        }
+    }
+
+    public void setValue(String value) {
+        boolean bool = false;
+        if (value == null && this.value != null) bool = true;
+        else if (value != null && this.value == null) bool = true;
+        else if (!this.value.equals(value)) bool = true;
+        this.value = value;
+        //如果改变则执行事件
+        if (bool) notifyValueChangeListener(new ValueChangeEvent(this, this.value));
+    }
+
+    /*@Override
+    public String getValue() {
+        this.value = showVal.getText();
+        return value;
+    }*/
+
+    private void initListener() {
+        sliderListener = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                //取出滑动条的值，并在文本中显示出来
                 JSlider source = (JSlider) e.getSource();
-                value = source.getValue() + "";
-                showVal.setText("" + value);
+                setValue(source.getValue() + "");
+                showVal.setText(value);
             }
         };
     }

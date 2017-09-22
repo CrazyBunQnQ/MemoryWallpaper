@@ -1,6 +1,8 @@
 package com.crazybunqnq.wallpaper.view;
 
 import com.crazybunqnq.wallpaper.Constant;
+import com.crazybunqnq.wallpaper.event.ValueChangeEvent;
+import com.crazybunqnq.wallpaper.listenter.ValueChangeListener;
 import com.crazybunqnq.wallpaper.widget.PathSelect;
 import com.crazybunqnq.wallpaper.widget.RealTimeImage;
 import com.crazybunqnq.wallpaper.widget.SizeSlider;
@@ -88,6 +90,12 @@ public class MainView {
         JPanel heightPanel = heightSlider.getPanel();
 
         SizeSlider xSlider = new SizeSlider("水平位置", 0, Constant.SCREEN_WIDTH - 100, 50, false);
+        xSlider.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChangeEvent(ValueChangeEvent vcEvent) {
+                System.out.println("水平位置改变为" + xSlider.getValue());
+            }
+        });
         JPanel xPanel = xSlider.getPanel();
 
         SizeSlider ySlider = new SizeSlider("竖直位置", 0, Constant.SCREEN_HEIGHT - 100, 50, false);

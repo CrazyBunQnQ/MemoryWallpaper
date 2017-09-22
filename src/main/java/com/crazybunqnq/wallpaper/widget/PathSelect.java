@@ -1,6 +1,7 @@
 package com.crazybunqnq.wallpaper.widget;
 
 import com.crazybunqnq.wallpaper.Constant;
+import com.crazybunqnq.wallpaper.listenter.ValueChangeListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +26,7 @@ public class PathSelect extends BaseWidget {
         button.setMaximumSize(Constant.LABLE_DIMENSION_2);
         textField.setMaximumSize(new Dimension(panel.getSize().width - label.getSize().width, 24));
 
-        initListener();
+//        initListener();
         button.addActionListener((ActionListener) listener);
 
         panel.add(label);
@@ -35,12 +36,7 @@ public class PathSelect extends BaseWidget {
     }
 
     @Override
-    protected void initListener() {
-        listener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+    public void addValueChangeListener(ValueChangeListener vcListener) {
 
-            }
-        };
     }
 }
