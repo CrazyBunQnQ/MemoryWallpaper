@@ -99,7 +99,6 @@ public class MainView {
         nameTF.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChangeEvent(ValueChangeEvent vcEvent) {
-                System.out.println("输出文件夹名称：" + nameTF.getValue());
                 outName = nameTF.getValue();
             }
         });
