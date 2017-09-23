@@ -19,7 +19,9 @@ public class Constant {
     public final static int SCREEN_HEIGHT = ScreenUtil.getScreenHeight();
     public final static int PREVIEW_WIDTH = 580;
 
-    public final static String DEFAULT_PATH = new File("doc/default.jpg").getAbsolutePath();
+    public final static String DEFAULT_PATH_IMAGE = new File("doc/default.jpg").getAbsolutePath();
+    public final static String DEFAULT_PATH_TEXT = new File("doc/default.md").getAbsolutePath();
+    public final static String DEFAULT_PATH_OUT = new File("doc").getAbsolutePath();
 
     public final static Dimension SETTING_DIMENSION = new Dimension(300, 400);
     public final static Dimension RIGHT_DIMENSION = new Dimension(600, 460);

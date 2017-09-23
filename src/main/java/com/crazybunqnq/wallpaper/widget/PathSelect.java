@@ -33,7 +33,7 @@ public class PathSelect extends BaseWidget {
      */
     public PathSelect(String title, String value) throws FilePathException {
         File file = new File(value);
-        if (file == null || !file.isFile()) {
+        if (file == null || file.isFile()) {
             throw new FilePathException("文件路径错误");
         }
         init(title, value);

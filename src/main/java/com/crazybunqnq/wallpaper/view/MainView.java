@@ -66,7 +66,7 @@ public class MainView {
         setting.setPreferredSize(Constant.SETTING_DIMENSION);
 
         //原图路径
-        PathSelect imgSelect = new PathSelect("原图路径", Constant.DEFAULT_PATH, Constant.imgFilter);
+        PathSelect imgSelect = new PathSelect("原图路径", Constant.DEFAULT_PATH_IMAGE, Constant.imgFilter);
         imgSelect.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChangeEvent(ValueChangeEvent vcEvent) {
@@ -76,7 +76,7 @@ public class MainView {
         JPanel imgPanel = imgSelect.getPanel();
 
         //文档路径
-        PathSelect docSelect = new PathSelect("文档路径", Constant.DEFAULT_PATH, Constant.textFilter);
+        PathSelect docSelect = new PathSelect("文档路径", Constant.DEFAULT_PATH_TEXT, Constant.textFilter);
         docSelect.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChangeEvent(ValueChangeEvent vcEvent) {
@@ -86,7 +86,7 @@ public class MainView {
         JPanel docPanel = docSelect.getPanel();
 
         //输出设置
-        PathSelect outputSelect = new PathSelect("输出目录", Constant.DEFAULT_PATH);
+        PathSelect outputSelect = new PathSelect("输出目录", Constant.DEFAULT_PATH_OUT);
         outputSelect.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChangeEvent(ValueChangeEvent vcEvent) {
@@ -205,7 +205,7 @@ public class MainView {
     private static JPanel createPreviewPanel() {
         JPanel preview = new JPanel(new CardLayout());
         preview.setLocation(0, 0);
-        ImageIcon imageIcon = new ImageIcon(imgPath == null || "".equals(imgPath) ? Constant.DEFAULT_PATH : imgPath);
+        ImageIcon imageIcon = new ImageIcon(imgPath == null || "".equals(imgPath) ? Constant.DEFAULT_PATH_IMAGE : imgPath);
         int imgWidth = imageIcon.getIconWidth();
         int imgHeight = imageIcon.getIconHeight();
         System.out.println("图片分辨率为 " + imgWidth + " x " + imgHeight);
