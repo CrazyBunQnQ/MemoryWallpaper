@@ -49,7 +49,7 @@ public class BaseService {
         int height = src.getHeight(null);
         int lineWidth = 850;
         int maxLine = (height - marginT - marginB) / lineHight;
-        System.out.println("每行宽度：" + lineWidth + ", 最大行数：" + maxLine);
+        log.info("每行宽度：" + lineWidth + ", 最大行数：" + maxLine);
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
         g.drawImage(src, 0, 0, width, height, null);
@@ -66,7 +66,7 @@ public class BaseService {
                 curCol++;
                 curLine = 1;
                 x = marginL + curCol * lineWidth;
-                System.out.println("完成第 " + (curCol) + " 列");
+                log.info("完成第 " + (curCol) + " 列");
             }
             String str = "";
             if (text.length() >= 3) {
@@ -86,9 +86,9 @@ public class BaseService {
                     strTmp = twoString.getLastStr();
                     addSpace = strTmp.length() > 0;
                     if (addSpace) {
-                        System.out.println("当前行过长，自动换行，本次输出：");
+                        log.info("当前行过长，自动换行，本次输出：");
                         strTmp = "        " + strTmp;
-                        System.out.println("\"" + text + "\"");
+                        log.info("\"" + text + "\"");
                     }
                     g.setFont(contentFont);
                     g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 1f));

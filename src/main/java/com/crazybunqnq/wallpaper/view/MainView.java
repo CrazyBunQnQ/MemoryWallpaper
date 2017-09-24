@@ -1,9 +1,11 @@
 package com.crazybunqnq.wallpaper.view;
 
 import com.crazybunqnq.wallpaper.Constant;
+import com.crazybunqnq.wallpaper.entity.MDInfo;
 import com.crazybunqnq.wallpaper.event.ValueChangeEvent;
 import com.crazybunqnq.wallpaper.exception.FilePathException;
 import com.crazybunqnq.wallpaper.listenter.ValueChangeListener;
+import com.crazybunqnq.wallpaper.util.MDUtil;
 import com.crazybunqnq.wallpaper.widget.PathSelect;
 import com.crazybunqnq.wallpaper.widget.RealTimeImage;
 import com.crazybunqnq.wallpaper.widget.SimpleSlider;
@@ -13,6 +15,8 @@ import lombok.extern.log4j.Log4j;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @version 2017/9/16.
@@ -33,6 +37,7 @@ public class MainView {
     private static int startX;
     private static int startY;
 
+    private static MDInfo mdInfo;
     private static RealTimeImage realTimePreview = new RealTimeImage();
 
     private MainView() {
@@ -81,6 +86,11 @@ public class MainView {
             @Override
             public void valueChangeEvent(ValueChangeEvent vcEvent) {
                 docPath = docSelect.getValue();
+                try {
+                    mdInfo = MDUtil.getMDInfo(new File(docPath), true, false, true, false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         JPanel docPanel = docSelect.getPanel();
@@ -208,7 +218,7 @@ public class MainView {
         ImageIcon imageIcon = new ImageIcon(imgPath == null || "".equals(imgPath) ? Constant.DEFAULT_PATH_IMAGE : imgPath);
         int imgWidth = imageIcon.getIconWidth();
         int imgHeight = imageIcon.getIconHeight();
-        System.out.println("图片分辨率为 " + imgWidth + " x " + imgHeight);
+        log.info("图片分辨率为 " + imgWidth + " x " + imgHeight);
         float aspectRatio = (float) imgWidth / (float) imgHeight;
         int previewHeight = (int) (Constant.PREVIEW_WIDTH / aspectRatio);
         imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(Constant.PREVIEW_WIDTH, previewHeight, Image.SCALE_DEFAULT));
