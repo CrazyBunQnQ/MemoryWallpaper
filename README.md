@@ -7,6 +7,8 @@ It can you want to keep in mind but not familiar with the text added to your fav
 
 All you need is your favorite wallpaper and a text.
 
+![示例](http://wx4.sinaimg.cn/large/a6e9cb00ly1fx1loobracj21kw0w0u0x.jpg)
+
 ### Todo List
 - Set the font size based on the image's original resolution, dpi, and output resolution
 - Add UI view
